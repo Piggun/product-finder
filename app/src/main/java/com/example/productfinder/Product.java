@@ -40,7 +40,7 @@ public class Product implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return this.getDescription() + "\n Category: " + category + " \n Sub-category: " + subCategory;
+        return this.getDescription();
     }
 
     // Getters

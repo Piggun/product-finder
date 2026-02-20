@@ -22,10 +22,6 @@ public class ProductDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
-//        String productDescription = getIntent().getStringExtra("productDescription");
-//        TextView productDescriptionView = findViewById(R.id.ProductDescription);
-//        productDescriptionView.setText(productDescription);
-
         Product selectedProduct = (Product) getIntent().getSerializableExtra("product");
         TextView productDescriptionView = findViewById(R.id.ProductDescription);
         productDescriptionView.setText(selectedProduct.getDescription());
@@ -33,8 +29,14 @@ public class ProductDetailsActivity extends AppCompatActivity {
         TextView productIDView = findViewById(R.id.IDValue);
         productIDView.setText(selectedProduct.getId());
 
+        TextView productCategoryView = findViewById(R.id.categoryValue);
+        productCategoryView.setText(String.valueOf(selectedProduct.getCategory()));
+
+        TextView productSubCategoryView = findViewById(R.id.subCategoryValue);
+        productSubCategoryView.setText(String.valueOf(selectedProduct.getSubCategory()));
+
         TextView productPriceView = findViewById(R.id.priceValue);
-        productPriceView.setText(String.valueOf(selectedProduct.getPrice()));
+        productPriceView.setText("£" + selectedProduct.getPrice());
 
         TextView productBarcodeView = findViewById(R.id.barcodeValue);
         productBarcodeView.setText(selectedProduct.getBarcode());

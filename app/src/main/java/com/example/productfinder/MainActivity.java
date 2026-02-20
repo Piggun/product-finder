@@ -117,10 +117,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        for (Product product : productList){
-            Log.d("productID", product.getId());
-        }
-
     }
 
 
