@@ -2,11 +2,16 @@ package com.example.productfinder;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -26,6 +31,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    String[] sortByOptions = {"Description", "Category", "Price", "ID"};
+
+    AutoCompleteTextView autoCompleteTextView;
+
+    ArrayAdapter<String> adapterItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +95,40 @@ public class MainActivity extends AppCompatActivity {
         productList.add(product9);
         productList.add(product10);
 
-
         productList.sort(Comparator.comparing(Product::getDescription));
 
-
-
-//        ArrayAdapter<Product> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, productList);
         ProductAdapter adapter = new ProductAdapter(this, productList);
 
         productListView.setAdapter(adapter);
+
+
+        autoCompleteTextView = findViewById(R.id.auto_complete_txt);
+        adapterItems = new ArrayAdapter<String>(this, R.layout.list_item_sort, sortByOptions);
+        autoCompleteTextView.setAdapter(adapterItems);
+
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                String item = adapterView.getItemAtPosition(position).toString();
+                Toast.makeText(MainActivity.this, "Sorted by: " + item, Toast.LENGTH_SHORT).show();
+                switch (item) {
+                    case "Description":
+                        productList.sort(Comparator.comparing(Product::getDescription));
+                        break;
+                    case "Category":
+                        productList.sort(Comparator.comparing(Product::getCategory));
+                        break;
+                    case "Price":
+                        productList.sort(Comparator.comparing(Product::getPrice));
+                        break;
+                    case "ID":
+                        productList.sort(Comparator.comparing(Product::getId));
+                        break;
+                }
+                    adapter.notifyDataSetChanged();
+            }
+        });
+
 
         // Search bar functionality
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -110,10 +146,21 @@ public class MainActivity extends AppCompatActivity {
         // List view functionality
         productListView.setOnItemClickListener((parent, view, position, id) -> {
             Product selectedProduct = productList.get(position);
+
+            // TODO - Fix selected product when searchbar is used
+
             Toast.makeText(MainActivity.this, "Selected product: " + selectedProduct.getDescription(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ProductDetailsActivity.class);
             intent.putExtra("product", selectedProduct);
             startActivity(intent);
+        });
+
+
+        View sortByLayout = findViewById(R.id.SortByLayout);
+
+        // Make the SearchBar expand to full width when focused
+        searchBar.setOnQueryTextFocusChangeListener((v, hasFocus) -> {
+            sortByLayout.setVisibility(hasFocus ? View.GONE : View.VISIBLE);
         });
 
 
