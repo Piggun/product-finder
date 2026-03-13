@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         adapterItems = new ArrayAdapter<String>(this, R.layout.list_item_sort, sortByOptions);
         autoCompleteTextView.setAdapter(adapterItems);
 
+        // Sort By functionality
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -113,22 +114,22 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Sorted by: " + item, Toast.LENGTH_SHORT).show();
                 switch (item) {
                     case "Description":
-                        productList.sort(Comparator.comparing(Product::getDescription));
+                        adapter.sort(Comparator.comparing(Product::getDescription));
                         break;
                     case "Category":
-                        productList.sort(Comparator.comparing(Product::getCategory));
+                        adapter.sort(Comparator.comparing(Product::getCategory));
                         break;
                     case "Price":
-                        productList.sort(Comparator.comparing(Product::getPrice));
+                        adapter.sort(Comparator.comparing(Product::getPrice));
                         break;
                     case "ID":
-                        productList.sort(Comparator.comparing(Product::getId));
+                        adapter.sort(Comparator.comparing(Product::getId));
                         break;
                 }
-                    adapter.notifyDataSetChanged();
+                // Update the list view with the sorted data by resetting the filter
+                adapter.getFilter().filter(searchBar.getQuery());
             }
         });
-
 
         // Search bar functionality
         searchBar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -145,9 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
         // List view functionality
         productListView.setOnItemClickListener((parent, view, position, id) -> {
-            Product selectedProduct = productList.get(position);
-
-            // TODO - Fix selected product when searchbar is used
+            Product selectedProduct = adapter.getItem(position);
 
             Toast.makeText(MainActivity.this, "Selected product: " + selectedProduct.getDescription(), Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ProductDetailsActivity.class);
