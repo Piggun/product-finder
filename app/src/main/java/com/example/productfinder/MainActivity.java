@@ -33,10 +33,16 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     String[] sortByOptions = {"Description", "Category", "Price", "ID"};
+    public static String[] categories = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
     AutoCompleteTextView autoCompleteTextView;
 
     ArrayAdapter<String> adapterItems;
+
+    public static List<Product> productList = new ArrayList<>();
+
+    ProductAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         Product product9 = null;
         Product product10 = null;
 
-        List<Product> productList = new ArrayList<>();
+//        List<Product> productList = new ArrayList<>();
 
         try {
             product1 = new Product("00001","Paracetamol","0000010555552",1.45, 1,1);
@@ -97,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         productList.sort(Comparator.comparing(Product::getDescription));
 
-        ProductAdapter adapter = new ProductAdapter(this, productList);
+        adapter = new ProductAdapter(this, productList);
 
         productListView.setAdapter(adapter);
 
@@ -111,21 +117,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 String item = adapterView.getItemAtPosition(position).toString();
+
+                // Sort the list based on the selected item
+                applyCurrentSort(item);
+
                 Toast.makeText(MainActivity.this, "Sorted by: " + item, Toast.LENGTH_SHORT).show();
-                switch (item) {
-                    case "Description":
-                        adapter.sort(Comparator.comparing(Product::getDescription));
-                        break;
-                    case "Category":
-                        adapter.sort(Comparator.comparing(Product::getCategory));
-                        break;
-                    case "Price":
-                        adapter.sort(Comparator.comparing(Product::getPrice));
-                        break;
-                    case "ID":
-                        adapter.sort(Comparator.comparing(Product::getId));
-                        break;
-                }
+
                 // Update the list view with the sorted data by resetting the filter
                 adapter.getFilter().filter(searchBar.getQuery());
             }
@@ -162,8 +159,37 @@ public class MainActivity extends AppCompatActivity {
             sortByLayout.setVisibility(hasFocus ? View.GONE : View.VISIBLE);
         });
 
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // This runs every time you come back to this activity
+        // Updates the list view with the new data
+        if (adapter != null) {
+            // Update list with current filter selected
+            applyCurrentSort(autoCompleteTextView.getText().toString());
+            adapter.getFilter().filter("");
+        }
+    }
+
+    private void applyCurrentSort(String item) {
+        if (item == null || item.isEmpty()) return;
+
+        switch (item) {
+            case "Description":
+                adapter.sort(Comparator.comparing(Product::getDescription));
+                break;
+            case "Category":
+                adapter.sort(Comparator.comparing(Product::getCategory));
+                break;
+            case "Price":
+                adapter.sort(Comparator.comparing(Product::getPrice));
+                break;
+            case "ID":
+                adapter.sort(Comparator.comparing(Product::getId));
+                break;
+        }
+    }
 
 }

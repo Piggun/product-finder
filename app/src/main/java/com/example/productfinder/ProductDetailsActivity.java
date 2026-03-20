@@ -42,6 +42,32 @@ public class ProductDetailsActivity extends AppCompatActivity {
         TextView productBarcodeView = findViewById(R.id.barcodeValue);
         productBarcodeView.setText(selectedProduct.getBarcode());
 
+        // Set click listener on the Category view
+        productCategoryView.setOnClickListener(v -> {
+            // Create a Selection Dialog
+            new android.app.AlertDialog.Builder(ProductDetailsActivity.this)
+                    .setTitle("Select Category")
+                    .setItems(MainActivity.categories, (dialog, index) -> {
+                        // Get selected category
+                        String selectedCategory = MainActivity.categories[index];
+
+                        // Update the UI
+                        productCategoryView.setText(selectedCategory);
+
+                        // Update the product category in the list
+                        for (Product product : MainActivity.productList) {
+                            if (product.getId().equals(selectedProduct.getId())) {
+                                product.setCategory(Integer.parseInt(selectedCategory));
+                                break;
+                            }
+                        }
+
+                        android.widget.Toast.makeText(this, "Category updated to " + selectedCategory, android.widget.Toast.LENGTH_SHORT).show();
+                    })
+                    .show();
+        });
+
+
 
     }
 }
