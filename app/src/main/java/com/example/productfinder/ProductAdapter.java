@@ -30,6 +30,10 @@ public class ProductAdapter extends ArrayAdapter<Product> {
         TextView productDescription = convertView.findViewById(R.id.textView2);
         productDescription.setText(product.getDescription());
 
+        TextView productPrice = convertView.findViewById(R.id.textView16);
+        // Format the price as a string with two decimal places
+        productPrice.setText(String.format("£%.2f", product.getPrice()));
+
         TextView productCategory = convertView.findViewById(R.id.textView3);
         productCategory.setText("Category: " + product.getCategory());
 

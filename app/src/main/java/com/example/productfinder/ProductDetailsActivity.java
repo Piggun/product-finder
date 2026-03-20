@@ -36,7 +36,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productSubCategoryView.setText(String.valueOf(selectedProduct.getSubCategory()));
 
         TextView productPriceView = findViewById(R.id.priceValue);
-        productPriceView.setText("£" + selectedProduct.getPrice());
+        // Format the price as a string with two decimal places
+        productPriceView.setText(String.format("£%.2f", selectedProduct.getPrice()));
 
         TextView productBarcodeView = findViewById(R.id.barcodeValue);
         productBarcodeView.setText(selectedProduct.getBarcode());
