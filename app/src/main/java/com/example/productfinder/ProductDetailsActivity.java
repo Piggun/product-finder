@@ -1,6 +1,7 @@
 package com.example.productfinder;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -29,6 +30,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         TextView productIDView = findViewById(R.id.IDValue);
         productIDView.setText(selectedProduct.getId());
 
+        LinearLayout productCategoryLayout = findViewById(R.id.productCategoryLayout);
         TextView productCategoryView = findViewById(R.id.categoryValue);
         productCategoryView.setText(String.valueOf(selectedProduct.getCategory()));
 
@@ -43,7 +45,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productBarcodeView.setText(selectedProduct.getBarcode());
 
         // Set click listener on the Category view
-        productCategoryView.setOnClickListener(v -> {
+        productCategoryLayout.setOnClickListener(v -> {
             // Create a Selection Dialog
             new android.app.AlertDialog.Builder(ProductDetailsActivity.this)
                     .setTitle("Select Category")
