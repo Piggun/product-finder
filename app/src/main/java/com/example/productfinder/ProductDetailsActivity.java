@@ -44,8 +44,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
         TextView productBarcodeView = findViewById(R.id.barcodeValue);
         productBarcodeView.setText(selectedProduct.getBarcode());
 
-        // Set click listener on the Category view
-        productCategoryLayout.setOnClickListener(v -> {
+        // Set long click listener on the Category view
+        productCategoryLayout.setOnLongClickListener(v -> {
             // Create a Selection Dialog
             new android.app.AlertDialog.Builder(ProductDetailsActivity.this)
                     .setTitle("Select Category")
@@ -63,13 +63,16 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                 break;
                             }
                         }
-
                         android.widget.Toast.makeText(this, "Category updated to " + selectedCategory, android.widget.Toast.LENGTH_SHORT).show();
                     })
                     .show();
+            // Return true to indicate that the long click event has been handled
+            return true;
         });
 
-
+        productCategoryLayout.setOnClickListener(v -> {
+            android.widget.Toast.makeText(this, "Press and hold to change category", android.widget.Toast.LENGTH_SHORT).show();
+        });
 
     }
 }
