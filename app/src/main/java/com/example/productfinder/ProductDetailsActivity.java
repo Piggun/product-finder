@@ -5,6 +5,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -37,6 +38,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         TextView productSubCategoryView = findViewById(R.id.subCategoryValue);
         productSubCategoryView.setText(String.valueOf(selectedProduct.getSubCategory()));
 
+        LinearLayout productPriceLayout = findViewById(R.id.productPriceLayout);
         TextView productPriceView = findViewById(R.id.priceValue);
         // Format the price as a string with two decimal places
         productPriceView.setText(String.format("£%.2f", selectedProduct.getPrice()));
@@ -47,7 +49,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
         // Set long click listener on the Category view
         productCategoryLayout.setOnLongClickListener(v -> {
             // Create a Selection Dialog
-            new android.app.AlertDialog.Builder(ProductDetailsActivity.this)
+            new AlertDialog.Builder(ProductDetailsActivity.this)
                     .setTitle("Select Category")
                     .setItems(MainActivity.categories, (dialog, index) -> {
                         // Get selected category
@@ -73,6 +75,55 @@ public class ProductDetailsActivity extends AppCompatActivity {
         productCategoryLayout.setOnClickListener(v -> {
             android.widget.Toast.makeText(this, "Press and hold to change category", android.widget.Toast.LENGTH_SHORT).show();
         });
+
+
+        productPriceLayout.setOnLongClickListener(v -> {
+            // 1. Create the EditText input field
+            final android.widget.EditText input = new android.widget.EditText(this);
+            input.setInputType(android.view.inputmethod.EditorInfo.TYPE_CLASS_NUMBER | android.view.inputmethod.EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+            input.setHint("0.00");
+            input.setText(String.valueOf(selectedProduct.getPrice()));
+
+            // 2. Create the Dialog
+            new AlertDialog.Builder(this)
+                    .setTitle("Change Product Price")
+                    .setView(input) // Add the input box to the dialog
+                    .setPositiveButton("Update", (dialog, which) -> {
+                        String newPriceText = input.getText().toString();
+                        if (!newPriceText.isEmpty()) {
+                            // TODO fix input validation
+                            try {
+                                double newPrice = Double.parseDouble(newPriceText);
+
+                                // Update UI
+                                productPriceView.setText(String.format("£%.2f", newPrice));
+
+                                // Update the Master List (Static)
+                                for (Product p : MainActivity.productList) {
+                                    if (p.getId().equals(selectedProduct.getId())) {
+                                        p.setPrice(newPrice);
+                                        break;
+                                    }
+                                }
+
+                                android.widget.Toast.makeText(this, "Price updated", android.widget.Toast.LENGTH_SHORT).show();
+                            } catch (NumberFormatException e) {
+                                android.widget.Toast.makeText(this, "Invalid price entered", android.widget.Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+
+            return true;
+        });
+
+
+        productPriceLayout.setOnClickListener(v -> {
+            android.widget.Toast.makeText(this, "Press and hold to change price", android.widget.Toast.LENGTH_SHORT).show();
+        });
+
+
 
     }
 }
