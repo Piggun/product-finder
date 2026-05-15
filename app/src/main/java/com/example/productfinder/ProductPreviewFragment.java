@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 public class ProductPreviewFragment extends BottomSheetDialogFragment {
@@ -36,7 +38,8 @@ public class ProductPreviewFragment extends BottomSheetDialogFragment {
 
         // Bind Data
         LinearLayout productLayout = v.findViewById(R.id.productLayout);
-        ((TextView) v.findViewById(R.id.ProductDescription)).setText(product.getDescription());
+        TextView productDescription = v.findViewById(R.id.ProductDescription);
+        productDescription.setText(product.getDescription());
         ((TextView) v.findViewById(R.id.IDValue)).setText(product.getId());
         ((TextView) v.findViewById(R.id.priceValue)).setText(String.format("£%.2f", product.getPrice()));
         ((TextView) v.findViewById(R.id.categoryValue)).setText(String.valueOf(product.getCategory()));
@@ -47,6 +50,8 @@ public class ProductPreviewFragment extends BottomSheetDialogFragment {
         ((LinearLayout) v.findViewById(R.id.productCategoryLayout)).setForeground(null);
         // Remove clickable hint from price layout
         ((LinearLayout) v.findViewById(R.id.productPriceLayout)).setForeground(null);
+        // Change Product Description text colour
+        productDescription.setTextColor(ContextCompat.getColor(requireContext(), R.color.cream));
 
         productLayout.setOnClickListener(view -> {
             dismiss(); // Close the sheet
