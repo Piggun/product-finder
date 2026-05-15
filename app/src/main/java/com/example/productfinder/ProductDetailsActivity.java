@@ -1,6 +1,8 @@
 package com.example.productfinder;
 
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -83,20 +85,53 @@ public class ProductDetailsActivity extends AppCompatActivity {
 
 
         productPriceLayout.setOnLongClickListener(v -> {
-            // 1. Create the EditText input field
+            // Create the EditText input field
             final android.widget.EditText input = new android.widget.EditText(this);
             input.setInputType(android.view.inputmethod.EditorInfo.TYPE_CLASS_NUMBER | android.view.inputmethod.EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             input.setHint("0.00");
-            input.setText(String.valueOf(String.format("£%.2f", selectedProduct.getPrice())));
+            input.setMaxWidth(50);
+            input.setText(String.valueOf(String.format("%.2f", selectedProduct.getPrice())));
+
+            // Add InputFilter to restrict to 2 decimal places
+            input.setFilters(new InputFilter[]{new InputFilter() {
+                @Override
+                public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                    String result = dest.subSequence(0, dstart) + source.toString() + dest.subSequence(dend, dest.length());
+                    if (result.isEmpty()) return null;
+
+                    int dotPos = result.indexOf(".");
+                    if (dotPos >= 0) {
+                        if (result.length() - dotPos - 1 > 2) return "";
+                    }
+                    return null;
+                }
+            }});
+
+            // Wrap the EditText in a FrameLayout to control WIDTH and MARGINS
+            android.widget.FrameLayout container = new android.widget.FrameLayout(this);
+            android.widget.FrameLayout.LayoutParams params = new android.widget.FrameLayout.LayoutParams(
+                    android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                    android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+
+            // Set horizontal margins (e.g., 48dp) to prevent the text box from touching the dialog edges
+            int margin = (int) (48 * getResources().getDisplayMetrics().density);
+            params.leftMargin = margin;
+            params.rightMargin = margin;
+            input.setLayoutParams(params);
+            input.setTextAlignment(android.view.View.TEXT_ALIGNMENT_CENTER);
+            container.addView(input);
 
             // 2. Create the Dialog
-            new AlertDialog.Builder(this)
+            new MaterialAlertDialogBuilder(this)
                     .setTitle("Change Product Price")
-                    .setView(input) // Add the input box to the dialog
+                    .setIcon(R.drawable.price_icon)
+                    .setView(container) // Add the input box to the dialog
                     .setPositiveButton("Update", (dialog, which) -> {
                         String newPriceText = input.getText().toString();
                         if (!newPriceText.isEmpty()) {
                             // TODO fix input validation
+
                             try {
                                 double newPrice = Double.parseDouble(newPriceText);
 
@@ -106,6 +141,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                 // Update the Master List (Static)
                                 for (Product p : MainActivity.productList) {
                                     if (p.getId().equals(selectedProduct.getId())) {
+                                        selectedProduct.setPrice(newPrice); // Also update the local reference
                                         p.setPrice(newPrice);
                                         break;
                                     }
