@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8sp"
                     android:background="@drawable/shape"
-                    android:foreground="?attr/selectableItemBackground"
+                    android:foreground="@drawable/ripple_rounded"
                     android:orientation="horizontal">
 
                     <TextView
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8sp"
                     android:background="@drawable/shape"
-                    android:foreground="?attr/selectableItemBackground"
+                    android:foreground="@drawable/ripple_rounded"
                     android:orientation="horizontal">
 
                     <TextView
