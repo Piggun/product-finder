@@ -1,6 +1,7 @@
 package com.example.productfinder;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class ProductDetailsActivity extends AppCompatActivity {
 
@@ -49,8 +52,9 @@ public class ProductDetailsActivity extends AppCompatActivity {
         // Set long click listener on the Category view
         productCategoryLayout.setOnLongClickListener(v -> {
             // Create a Selection Dialog
-            new AlertDialog.Builder(ProductDetailsActivity.this)
+              new MaterialAlertDialogBuilder(this, R.style.DialogStyle)
                     .setTitle("Select Category")
+                    .setIcon(R.drawable.category_icon)
                     .setItems(MainActivity.categories, (dialog, index) -> {
                         // Get selected category
                         String selectedCategory = MainActivity.categories[index];
@@ -68,6 +72,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
                         android.widget.Toast.makeText(this, "Category updated to " + selectedCategory, android.widget.Toast.LENGTH_SHORT).show();
                     })
                     .show();
+
             // Return true to indicate that the long click event has been handled
             return true;
         });
@@ -82,7 +87,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             final android.widget.EditText input = new android.widget.EditText(this);
             input.setInputType(android.view.inputmethod.EditorInfo.TYPE_CLASS_NUMBER | android.view.inputmethod.EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
             input.setHint("0.00");
-            input.setText(String.valueOf(selectedProduct.getPrice()));
+            input.setText(String.valueOf(String.format("£%.2f", selectedProduct.getPrice())));
 
             // 2. Create the Dialog
             new AlertDialog.Builder(this)

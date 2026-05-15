@@ -10,7 +10,7 @@
     <!-- Style used for the BottomSheetDialog -->
     <style name="RoundedBottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/RoundedBottomSheetStyle</item>
-    </style>
+    </style>s
 
     <style name="RoundedBottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
         <!-- This applies the red color to the SHAPE, which keeps the corners rounded -->
@@ -24,5 +24,10 @@
         <item name="cornerSizeBottomLeft">0dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
     </style>
+
+    <style name="DialogStyle" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:textSize">16sp</item>
+    </style>
+
 
 </resources>
