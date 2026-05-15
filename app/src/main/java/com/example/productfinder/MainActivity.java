@@ -156,37 +156,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Show product details window when long clicked
         productListView.setOnItemLongClickListener((parent, view, position, id) -> {
-            // 1. Get the product that was long-clicked
             Product selectedProduct = adapter.getItem(position);
 
-            // 2. Create the BottomSheetDialog
-            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+            // Use the Fragment instead of the Dialog class
+            ProductPreviewFragment previewFragment = ProductPreviewFragment.newInstance(selectedProduct);
+            previewFragment.show(getSupportFragmentManager(), "ProductPreview");
 
-            // 3. Inflate the product_details_card layout
-            View sheetView = getLayoutInflater().inflate(R.layout.activity_product_details, null);
-            bottomSheetDialog.setContentView(sheetView);
-
-            // 4. Bind the data to the views inside the card
-            TextView description = sheetView.findViewById(R.id.ProductDescription);
-            TextView ID = sheetView.findViewById(R.id.IDValue);
-            TextView price = sheetView.findViewById(R.id.priceValue);
-            TextView category = sheetView.findViewById(R.id.categoryValue);
-            TextView subCategory = sheetView.findViewById(R.id.subCategoryValue);
-            TextView barcode = sheetView.findViewById(R.id.barcodeValue);
-
-            description.setText(selectedProduct.getDescription());
-            ID.setText(selectedProduct.getId());
-            price.setText(String.format("£%.2f", selectedProduct.getPrice()));
-            category.setText(String.valueOf(selectedProduct.getCategory()));
-            subCategory.setText(String.valueOf(selectedProduct.getSubCategory()));
-            barcode.setText(selectedProduct.getBarcode());
-
-            // 5. Show the overlay
-            bottomSheetDialog.show();
-
-            return true; // Return true to indicate the long click was handled
+            return true;
         });
-
 
         View sortByLayout = findViewById(R.id.SortByLayout);
 
