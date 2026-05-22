@@ -34,7 +34,7 @@ public class ProductPreviewFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate your details layout
-        View v = inflater.inflate(R.layout.activity_product_details, container, false);
+        View v = inflater.inflate(R.layout.activity_product_details_preview, container, false);
 
         // Bind Data
         LinearLayout productLayout = v.findViewById(R.id.productLayout);
@@ -51,7 +51,7 @@ public class ProductPreviewFragment extends BottomSheetDialogFragment {
         // Remove clickable hint from price layout
         ((LinearLayout) v.findViewById(R.id.productPriceLayout)).setForeground(null);
         // Change Product Description text colour
-        productDescription.setTextColor(ContextCompat.getColor(requireContext(), R.color.cream));
+//        productDescription.setTextColor(ContextCompat.getColor(requireContext(), R.color.cream));
 
         productLayout.setOnClickListener(view -> {
             dismiss(); // Close the sheet

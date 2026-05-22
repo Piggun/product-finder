@@ -92,17 +92,18 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Error", e.getMessage());
         }
 
-
-        productList.add(product1);
-        productList.add(product2);
-        productList.add(product3);
-        productList.add(product4);
-        productList.add(product5);
-        productList.add(product6);
-        productList.add(product7);
-        productList.add(product8);
-        productList.add(product9);
-        productList.add(product10);
+        if (productList.isEmpty()) {
+            productList.add(product1);
+            productList.add(product2);
+            productList.add(product3);
+            productList.add(product4);
+            productList.add(product5);
+            productList.add(product6);
+            productList.add(product7);
+            productList.add(product8);
+            productList.add(product9);
+            productList.add(product10);
+        }
 
         productList.sort(Comparator.comparing(Product::getDescription));
 
