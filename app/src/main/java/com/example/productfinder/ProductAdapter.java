@@ -21,23 +21,45 @@ public class ProductAdapter extends ArrayAdapter<Product> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+//        if (convertView == null) {
+//            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_product, parent, false);
+//        }
+//
+//        Product product = getItem(position);
+//
+//        TextView productDescription = convertView.findViewById(R.id.textView2);
+//        productDescription.setText(product.getDescription());
+//
+//        TextView productPrice = convertView.findViewById(R.id.textView16);
+//        // Format the price as a string with two decimal places
+//        productPrice.setText(String.format("£%.2f", product.getPrice()));
+//
+//        TextView productCategory = convertView.findViewById(R.id.textView3);
+//        productCategory.setText("Category: " + product.getCategory());
+//
+//        TextView productSubCategory = convertView.findViewById(R.id.textView7);
+//        productSubCategory.setText("Sub-Category: " + product.getSubCategory());
+//
+//        return convertView;
+
+
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_product, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_product_card, parent, false);
         }
 
         Product product = getItem(position);
 
-        TextView productDescription = convertView.findViewById(R.id.textView2);
+        TextView productDescription = convertView.findViewById(R.id.productDescription);
         productDescription.setText(product.getDescription());
 
-        TextView productPrice = convertView.findViewById(R.id.textView16);
+        TextView productPrice = convertView.findViewById(R.id.productPrice);
         // Format the price as a string with two decimal places
         productPrice.setText(String.format("£%.2f", product.getPrice()));
 
-        TextView productCategory = convertView.findViewById(R.id.textView3);
+        TextView productCategory = convertView.findViewById(R.id.productCategory);
         productCategory.setText("Category: " + product.getCategory());
 
-        TextView productSubCategory = convertView.findViewById(R.id.textView7);
+        TextView productSubCategory = convertView.findViewById(R.id.productSubcategory);
         productSubCategory.setText("Sub-Category: " + product.getSubCategory());
 
         return convertView;

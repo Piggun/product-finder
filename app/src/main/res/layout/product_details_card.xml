@@ -46,7 +46,7 @@
                     android:textAlignment="center">
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/productDescription"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ID :"
@@ -74,7 +74,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/productCategory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Category : "
@@ -98,7 +98,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/productSubcategory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sub-Category : "
@@ -124,7 +124,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/productPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Price : "

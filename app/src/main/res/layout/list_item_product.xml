@@ -8,6 +8,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="5dp"
+
+        android:backgroundTint="@color/homeBargainsLightBlue"
+        android:backgroundTintMode="add"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="5dp">
