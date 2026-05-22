@@ -83,7 +83,7 @@ public class ProductDetailsActivity extends AppCompatActivity {
             android.widget.Toast.makeText(this, "Press and hold to change category", android.widget.Toast.LENGTH_SHORT).show();
         });
 
-
+        // Set long click listener on the Price view to allow changes to product price
         productPriceLayout.setOnLongClickListener(v -> {
             // Create the EditText input field
             final android.widget.EditText input = new android.widget.EditText(this);
@@ -130,13 +130,8 @@ public class ProductDetailsActivity extends AppCompatActivity {
                     .setPositiveButton("Update", (dialog, which) -> {
                         String newPriceText = input.getText().toString();
                         if (!newPriceText.isEmpty()) {
-                            // TODO fix input validation
-
                             try {
                                 double newPrice = Double.parseDouble(newPriceText);
-
-                                // Update UI
-                                productPriceView.setText(String.format("£%.2f", newPrice));
 
                                 // Update the Master List (Static)
                                 for (Product p : MainActivity.productList) {
@@ -147,10 +142,20 @@ public class ProductDetailsActivity extends AppCompatActivity {
                                     }
                                 }
 
+                                // Update UI
+                                productPriceView.setText(String.format("£%.2f", newPrice));
+
                                 android.widget.Toast.makeText(this, "Price updated", android.widget.Toast.LENGTH_SHORT).show();
                             } catch (NumberFormatException e) {
                                 android.widget.Toast.makeText(this, "Invalid price entered", android.widget.Toast.LENGTH_SHORT).show();
+                            } catch (InvalidProductException e) {
+                                android.widget.Toast.makeText(this, e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                android.widget.Toast.makeText(this, "An error occurred", android.widget.Toast.LENGTH_SHORT).show();
                             }
+                        }
+                        else {
+                            android.widget.Toast.makeText(this, "No price entered", android.widget.Toast.LENGTH_SHORT).show();
                         }
                     })
                     .setNegativeButton("Cancel", null)
