@@ -60,7 +60,6 @@
                     android:id="@+id/auto_complete_txt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:completionHint=" "
                     android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>

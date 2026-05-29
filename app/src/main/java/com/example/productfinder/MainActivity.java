@@ -2,17 +2,13 @@ package com.example.productfinder;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,15 +17,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.material.bottomsheet.BottomSheetDialog;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -37,13 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     String[] sortByOptions = {"Description", "Category", "Price", "ID"};
     public static String[] categories = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
-
-    AutoCompleteTextView autoCompleteTextView;
-
-    ArrayAdapter<String> adapterItems;
-
     public static List<Product> productList = new ArrayList<>();
-
+    AutoCompleteTextView autoCompleteTextView;
+    ArrayAdapter<String> adapterItems;
     ProductAdapter adapter;
 
 
@@ -63,54 +47,13 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        Product product1 = null;
-        Product product2 = null;
-        Product product3 = null;
-        Product product4 = null;
-        Product product5 = null;
-        Product product6 = null;
-        Product product7 = null;
-        Product product8 = null;
-        Product product9 = null;
-        Product product10 = null;
-
-//        List<Product> productList = new ArrayList<>();
-
-        try {
-            product1 = new Product("00001","Paracetamol","0000010555552",1.45, 1,1);
-            product2 = new Product("00002","Ibuprofen","0000010666552",1.20,1,1);
-            product3 = new Product("00003","Toothpaste","0000010424582",0.99,2,1);
-            product4 = new Product("00004","Plates","0000010424592",8.99,3,1);
-            product5 = new Product("00005","Snickers Bar","0000010555553",1.09,4,1);
-            product6 = new Product("00006","Shampoo","0000010666554",3.99,2,1);
-            product7 = new Product("00007","Phone Charger","0000010424589",12.99,5,1);
-            product8 = new Product("00008","Broccoli","0000010424595",0.79,4,2);
-            product9 = new Product("00009","Carrots","0000010424586",0.69,4,2);
-            product10 = new Product("00010","Courgettes","0000010424597",1.09,4,2);
-
-        } catch (Exception e) {
-            Log.d("Error", e.getMessage());
-        }
-
         if (productList.isEmpty()) {
-            productList.add(product1);
-            productList.add(product2);
-            productList.add(product3);
-            productList.add(product4);
-            productList.add(product5);
-            productList.add(product6);
-            productList.add(product7);
-            productList.add(product8);
-            productList.add(product9);
-            productList.add(product10);
+            initialiseProductData();
         }
-
-        productList.sort(Comparator.comparing(Product::getDescription));
 
         adapter = new ProductAdapter(this, productList);
 
         productListView.setAdapter(adapter);
-
 
         autoCompleteTextView = findViewById(R.id.auto_complete_txt);
         adapterItems = new ArrayAdapter<String>(this, R.layout.list_item_sort, sortByOptions);
@@ -187,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /// Sorts the list based on the selected item
+    /// @param item The selected item from the Sort By dropdown
     private void applyCurrentSort(String item) {
         if (item == null || item.isEmpty()) return;
 
@@ -204,6 +149,27 @@ public class MainActivity extends AppCompatActivity {
                 adapter.sort(Comparator.comparing(Product::getId));
                 break;
         }
+    }
+
+    /// Creates new products and adds them to productList
+    private void initialiseProductData(){
+        try {
+            productList.add(new Product("00001", "Paracetamol", "0000010555552", 1.45, 1, 1));
+            productList.add(new Product("00002", "Ibuprofen", "0000010666552", 1.20, 1, 1));
+            productList.add(new Product("00003", "Toothpaste", "0000010424582", 0.99, 2, 1));
+            productList.add(new Product("00004", "Plates", "0000010424592", 8.99, 3, 1));
+            productList.add(new Product("00005", "Snickers Bar", "0000010555553", 1.09, 4, 1));
+            productList.add(new Product("00006", "Shampoo", "0000010666554", 3.99, 2, 1));
+            productList.add(new Product("00007", "Phone Charger", "0000010424589", 12.99, 5, 1));
+            productList.add(new Product("00008", "Broccoli", "0000010424595", 0.79, 4, 2));
+            productList.add(new Product("00009", "Carrots", "0000010424586", 0.69, 4, 2));
+            productList.add(new Product("00010", "Courgettes", "0000010424597", 1.09, 4, 2));
+
+            productList.sort(Comparator.comparing(Product::getDescription));
+        } catch (Exception e) {
+            Log.d("Error", e.getMessage());
+        }
+
     }
 
 }
